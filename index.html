@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MW Aprende</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#07111f;color:#f4f8ff}
+header{padding:20px 6%;border-bottom:1px solid #26364b;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+.logo{font-size:25px;font-weight:bold}.logo span{color:#42e8ef}
+button{border:0;border-radius:10px;padding:12px 18px;font-weight:bold;cursor:pointer}
+.primary{background:#42e8ef;color:#07111f}
+.secondary{background:#17273b;color:white;border:1px solid #354963}
+main{width:90%;max-width:1100px;margin:auto}
+.hero{padding:65px 0;display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center}
+h1{font-size:clamp(38px,6vw,65px);line-height:1.08;margin:15px 0}
+.cyan{color:#42e8ef}.muted{color:#a7b6ca;line-height:1.7}
+.box,.card{background:#101e31;border:1px solid #2a3c53;border-radius:20px;padding:23px;margin:15px 0}
+.card h3{margin-top:5px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+input{width:100%;padding:14px;margin:12px 0;background:#07111f;border:1px solid #354963;border-radius:10px;color:white}
+#cadastro,#painel,#aula{display:none}
+.lesson{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;border-bottom:1px solid #26364b;padding:17px 0}
+.answer{display:block;width:100%;text-align:left;background:#17273b;color:white;border:1px solid #354963;margin:8px 0}
+.answer:hover{border-color:#42e8ef}
+#mensagem{color:#42e8ef;margin-top:12px}
+footer{text-align:center;color:#a7b6ca;padding:30px;border-top:1px solid #26364b;margin-top:40px}
+@media(max-width:700px){.hero{grid-template-columns:1fr;padding:40px 0}.cards{grid-template-columns:1fr}header{padding:16px 5%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">MW <span>Aprende</span></div>
+  <button class="primary" onclick="mostrarCadastro()">Entrar / Cadastrar</button>
+</header>
+
+<main>
+  <section id="inicio">
+    <div class="hero">
+      <div>
+        <p class="cyan"><b>EDUCAÇÃO PARA O SEU FUTURO</b></p>
+        <h1>Aprenda mais.<br><span class="cyan">Vá mais longe.</span></h1>
+        <p class="muted">Estude no seu ritmo, aprenda novas matérias, pratique com atividades e acompanhe sua evolução.</p>
+        <button class="primary" onclick="mostrarCadastro()">Começar agora →</button>
+      </div>
+      <div class="box">
+        <h2>🎓 Sua jornada começa aqui</h2>
+        <div class="card">📚 <b>Aulas e disciplinas</b><p class="muted">Aprenda novos conteúdos.</p></div>
+        <div class="card">✍️ <b>Atividades práticas</b><p class="muted">Responda perguntas e ganhe pontos.</p></div>
+        <div class="card">🏆 <b>Seu progresso</b><p class="muted">Acompanhe as aulas concluídas.</p></div>
+      </div>
+    </div>
+
+    <h2>O que você vai aprender?</h2>
+    <div class="cards">
+      <div class="card"><h3>🔤 Português</h3><p class="muted">Leitura e interpretação.</p></div>
+      <div class="card"><h3>➗ Matemática</h3><p class="muted">Operações básicas.</p></div>
+      <div class="card"><h3>💻 Informática</h3><p class="muted">Computadores e internet segura.</p></div>
+    </div>
+  </section>
+
+  <section id="cadastro" class="box">
+    <h2>👋 Criar perfil de estudante</h2>
+    <p class="muted">Digite seu nome para entrar. Não precisa de Gmail.</p>
+    <form id="formulario">
+      <label for="nome">Seu nome</label>
+      <input id="nome" placeholder="Digite seu nome completo" maxlength="60" required>
+      <button class="primary" type="submit">Entrar na plataforma</button>
+      <button class="secondary" type="button" onclick="voltarInicio()">Voltar</button>
+    </form>
+    <p class="muted">Este perfil fica salvo apenas neste navegador.</p>
+  </section>
+
+  <section id="painel">
+    <div class="box">
+      <button class="secondary" onclick="sair()">Sair</button>
+      <h1>Olá, <span id="aluno" class="cyan"></span>!</h1>
+      <p class="muted">Bem-vindo à sua área de estudos.</p>
+      <div class="cards">
+        <div class="card"><h3 id="concluidas">0/3</h3><p class="muted">Aulas concluídas</p></div>
+        <div class="card"><h3 id="pontos">0</h3><p class="muted">Pontos</p></div>
+        <div class="card"><h3 id="nivel">Iniciante</h3><p class="muted">Seu nível</p></div>
+      </div>
+    </div>
+    <div class="box">
+      <h2>📚 Suas aulas</h2>
+      <div class="lesson"><div><b>🔤 Português</b><p class="muted">Interpretação de texto</p></div><button class="primary" onclick="abrirAula('portugues')">Estudar</button></div>
+      <div class="lesson"><div><b>➗ Matemática</b><p class="muted">Operações básicas</p></div><button class="primary" onclick="abrirAula('matematica')">Estudar</button></div>
+      <div class="lesson"><div><b>💻 Informática</b><p class="muted">Internet segura</p></div><button class="primary" onclick="abrirAula('informatica')">Estudar</button></div>
+      <p id="mensagem"></p>
+    </div>
+    <div id="aula" class="box">
+      <button class="secondary" onclick="fecharAula()">Fechar aula</button>
+      <h2 id="tituloAula"></h2>
+      <p id="textoAula" class="muted"></p>
+      <h3 id="pergunta"></h3>
+      <div id="respostas"></div>
+      <p id="resultado" class="cyan"></p>
+    </div>
+  </section>
+</main>
+<footer>© <span id="ano"></span> MW Aprende — Aprender transforma o futuro.</footer>
+
+<script>
+const dados={
+ portugues:{
+ titulo:"Português: interpretação",
+ texto:"Leia: Ana estudou todos os dias e melhorou suas notas.",
+ pergunta:"O que ajudou Ana a melhorar suas notas?",
+ opcoes:["Estudar todos os dias","Parar de estudar","Faltar às aulas"],certa:0
+ },
+ matematica:{
+ titulo:"Matemática: operações",
+ texto:"A adição reúne quantidades.",
+ pergunta:"Quanto é 7 + 5?",
+ opcoes:["10","11","12"],certa:2
+ },
+ informatica:{
+ titulo:"Informática: internet segura",
+ texto:"Mantenha suas senhas privadas e desconfie de mensagens suspeitas.",
+ pergunta:"Como proteger sua conta?",
+ opcoes:["Compartilhar a senha","Manter a senha privada","Enviar a senha a desconhecidos"],certa:1
+ }
+};
+let perfil=null,aulaAtual="",respondida=false;
+document.getElementById("ano").textContent=new Date().getFullYear();
+
+function carregar(){
+ try{perfil=JSON.parse(localStorage.getItem("mwAprendePerfil"))}catch(e){perfil=null}
+}
+function guardar(){
+ localStorage.setItem("mwAprendePerfil",JSON.stringify(perfil));
+}
+function mostrarCadastro(){
+ document.getElementById("inicio").style.display="none";
+ document.getElementById("cadastro").style.display="block";
+ document.getElementById("painel").style.display="none";
+ window.scrollTo(0,0);
+}
+function voltarInicio(){
+ document.getElementById("inicio").style.display="block";
+ document.getElementById("cadastro").style.display="none";
+}
+document.getElementById("formulario").addEventListener("submit",function(e){
+ e.preventDefault();
+ const nome=document.getElementById("nome").value.trim();
+ if(!nome)return;
+ if(perfil && perfil.nome.toLowerCase()===nome.toLowerCase()){
+   // Mantém o progresso quando o mesmo nome é usado neste navegador.
+ }else{
+   perfil={nome:nome,feitas:[],pontos:0};
+ }
+ if(!Array.isArray(perfil.feitas))perfil.feitas=[];
+ if(typeof perfil.pontos!=="number")perfil.pontos=0;
+ guardar();
+ document.getElementById("inicio").style.display="none";
+ document.getElementById("cadastro").style.display="none";
+ document.getElementById("painel").style.display="block";
+ atualizar();
+ window.scrollTo(0,0);
+});
+function atualizar(){
+ document.getElementById("aluno").textContent=perfil.nome;
+ document.getElementById("concluidas").textContent=perfil.feitas.length+"/3";
+ document.getElementById("pontos").textContent=perfil.pontos;
+ document.getElementById("nivel").textContent=perfil.feitas.length===3?"Avançando":perfil.feitas.length>0?"Praticante":"Iniciante";
+}
+function sair(){
+ document.getElementById("painel").style.display="none";
+ document.getElementById("aula").style.display="none";
+ document.getElementById("inicio").style.display="block";
+ window.scrollTo(0,0);
+}
+function abrirAula(id){
+ aulaAtual=id;respondida=false;
+ const a=dados[id];
+ document.getElementById("aula").style.display="block";
+ document.getElementById("tituloAula").textContent=a.titulo;
+ document.getElementById("textoAula").textContent=a.texto;
+ document.getElementById("pergunta").textContent=a.pergunta;
+ document.getElementById("resultado").textContent="";
+ const area=document.getElementById("respostas");area.innerHTML="";
+ a.opcoes.forEach((op,i)=>{
+   const b=document.createElement("button");
+   b.className="answer";b.textContent=op;
+   b.onclick=()=>responder(i);
+   area.appendChild(b);
+ });
+ document.getElementById("aula").scrollIntoView({behavior:"smooth"});
+}
+function responder(i){
+ if(respondida)return;
+ respondida=true;
+ const a=dados[aulaAtual];
+ if(i===a.certa){
+   document.getElementById("resultado").textContent="Correto! Você aprendeu e ganhou 10 pontos.";
+   if(!perfil.feitas.includes(aulaAtual)){
+     perfil.feitas.push(aulaAtual);perfil.pontos+=10;guardar();
+   }
+ }else{
+   document.getElementById("resultado").textContent="Resposta incorreta. Revise a aula e tente novamente depois.";
+ }
+ atualizar();
+}
+function fecharAula(){document.getElementById("aula").style.display="none"}
+carregar();
+</script>
+</body>
+</html>
